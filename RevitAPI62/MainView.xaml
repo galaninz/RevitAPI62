@@ -1,0 +1,26 @@
+﻿<Window x:Class="RevitAPI62.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RevitAPI62"
+             mc:Ignorable="d" 
+             Height="Auto" d:DesignWidth="400">
+    <StackPanel>
+        <Label Content="Выбрать семейство мебели"
+               Margin="5"/>
+        <ComboBox ItemsSource="{Binding Furniture}"
+                  SelectedValue="{Binding SelectedFurnitureType}"
+                  DisplayMemberPath="Name"
+                  Margin="5"/>
+        <Label Content="Выбрать уровень"
+               Margin="5"/>
+        <ComboBox ItemsSource="{Binding Levels}"
+                  SelectedValue="{Binding SelectedLevel}"
+                  DisplayMemberPath="Name"
+                  Margin="5"/>
+        <Button Content="Применить"
+                Command="{Binding SaveCommand}"
+                Margin="5"/>
+    </StackPanel>
+</Window>
