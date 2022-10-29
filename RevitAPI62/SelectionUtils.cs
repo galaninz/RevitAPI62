@@ -62,7 +62,7 @@ namespace RevitAPI62
 
             List<XYZ> points = new List<XYZ>();
 
-            while (points.Count < 1)
+            while (points.Count < 2)
             {
                 XYZ pickedPoint = null;
                 try

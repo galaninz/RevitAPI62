@@ -20,6 +20,7 @@ namespace RevitAPI62
         public List<Level> Levels { get; } = new List<Level>();
         public List<FamilySymbol> Furniture { get; } = new List<FamilySymbol>();
         public DelegateCommand SaveCommand { get; }
+        public int FamilyQuantity { get; set; }
         public List<XYZ> Points { get; } = new List<XYZ>();
         public FamilySymbol SelectedFurnitureType { get; set; }
         public Level SelectedLevel { get; set; }
@@ -27,11 +28,13 @@ namespace RevitAPI62
         public MainViewViewModel(ExternalCommandData commandData)
         {
             _commandData = commandData;
-            Points = SelectionUtils.GetPoints(_commandData, "Выберите точку", ObjectSnapTypes.Points);
+            Points = SelectionUtils.GetPoints(_commandData, "Выберите точки", ObjectSnapTypes.Points);
             Levels = LevelsUtils.GetLevels(commandData);
             Furniture = FamilySymbolUtils.GetFamilySymbols(commandData);
             SaveCommand = new DelegateCommand(OnSaveCommand);
-            
+            FamilyQuantity = 5;
+
+
         }
 
         private void OnSaveCommand()
@@ -40,9 +43,20 @@ namespace RevitAPI62
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            XYZ insertionPoint = Points[0];
+            XYZ insertionPoint1 = Points[0];
+            XYZ insertionPoint2 = Points[1];
 
-            FamilyInstanceUtils.CreateFamilyInstance(_commandData, SelectedFurnitureType, insertionPoint, SelectedLevel);
+            int ratioX = (int)(insertionPoint1.X / FamilyQuantity - insertionPoint2.X / FamilyQuantity);
+            int ratioY = (int)(insertionPoint1.Y / FamilyQuantity - insertionPoint2.Y / FamilyQuantity);
+            int ratioZ = (int)(insertionPoint1.Z / FamilyQuantity - insertionPoint2.Z / FamilyQuantity);
+
+
+
+            for (int i = 1; i < FamilyQuantity + 1; i++)
+            {
+                var insertionPoint = new XYZ(ratioX * i, ratioY * i, ratioZ * i);
+                FamilyInstanceUtils.CreateFamilyInstance(_commandData, SelectedFurnitureType, insertionPoint, SelectedLevel);
+            }
 
             RaiseCloseRequest();
         }

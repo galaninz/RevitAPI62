@@ -18,7 +18,7 @@ namespace RevitAPI62
 
             var familySymbols = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilySymbol))
-                .OfCategory(BuiltInCategory.OST_Furniture)
+                //.OfCategory(BuiltInCategory.OST_Furniture)
                 .Cast<FamilySymbol>()
                 .ToList();
 
